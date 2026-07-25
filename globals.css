@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-olive: #48501f;
+  --brand-terracota: #a8552e;
+  --brand-bege: #e4d3b8;
+  --brand-offwhite: #faf3e7;
+  --brand-bronze: #a8823f;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--brand-bronze);
+  color: #fff;
+}
+
+.strata {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.strata .layer {
+  height: 9px;
+  border-radius: 3px;
+  background: #d9c8ab;
+  overflow: hidden;
+}
+.strata .layer .fill {
+  height: 100%;
+  border-radius: 3px;
+}
