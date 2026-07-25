@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Cada linha é um comprador liberado pela Hotmart.
+// Criado automaticamente pelo webhook em /api/webhooks/hotmart
+model User {
+  id                    String    @id @default(cuid())
+  email                 String    @unique
+  name                  String?
+  passwordHash          String
+  active                Boolean   @default(true) // false = acesso revogado (reembolso/chargeback)
+  hotmartTransactionId  String?
+  createdAt             DateTime  @default(now())
+
+  progress              Progress[]
+}
+
+// Progresso do usuário nos 40 movimentos (1 linha por dia concluído)
+model Progress {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  day         Int
+  answer      String?  // resposta do exercício do dia, vira entrada do Diário
+  completedAt DateTime @default(now())
+
+  @@unique([userId, day])
+}
